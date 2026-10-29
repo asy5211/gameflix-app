@@ -38,10 +38,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '21'
@@ -58,7 +58,7 @@ jobs:
 
       - name: Upload test reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: surefire-reports
           path: gameflix/target/surefire-reports/
@@ -71,14 +71,14 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Build Docker image
         run: docker build -t gameflix-backend:ci .
 
       # Security scan 1: report HIGH and CRITICAL vulnerabilities (does not fail the build).
       - name: Trivy scan - report
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@0.35.0
         with:
           image-ref: gameflix-backend:ci
           format: table
@@ -88,7 +88,7 @@ jobs:
 
       # Security scan 2: fail the pipeline if a CRITICAL vulnerability with an available fix is found.
       - name: Trivy scan - fail on CRITICAL
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@0.35.0
         with:
           image-ref: gameflix-backend:ci
           format: table
