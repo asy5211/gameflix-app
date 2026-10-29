@@ -1,0 +1,10 @@
+target/
+.idea/
+*.iml
+.vscode/
+.DS_Store
+
+# Local secrets - never commit
+application-local.properties
+src/main/resources/application-local.properties
+.env

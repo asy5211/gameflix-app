@@ -130,6 +130,16 @@ Module 4 implements only the **Users** entity, the account data used by the User
 
 What stayed the same: the password is never stored in plaintext, the table remains in 3NF (every non-key column depends only on the primary key), and `Users` keeps its one-to-many relationship to Reviews. The main design change is that the ERD identified a user by `username` and `email`, while the implementation identifies a user only by `email`. The database now enforces that, which is also what the 409 duplicate check relies on.
 
+## Docker (Module 5)
+
+The backend and MySQL run as two containers via Docker Compose. See [`DOCKER.md`](DOCKER.md) for the directive-by-directive explanation of the `Dockerfile` and `compose.yaml`, plus run and verify steps.
+
+```powershell
+Copy-Item .env.example .env   # fill in passwords and JWT_SECRET (.env is git-ignored)
+docker compose up --build -d
+docker compose ps
+```
+
 ## AI-use section
 
 I used Claude to generate the code for this assignment and also had it refine the README so that it produced a easy to read version rather then a bunch of code. The most important change that I had to do was changing the config files so that it would properly use the correct version of intellij, with the correct SDK, Change the orientation of the files so that they were readable for a human, and generate the SQL code so that I could link it in the README. I also had to go though some of the AuthFlowTest and tweak some of the lines/test so that they hit all of the requirements detailed in the assignment. I also had to code the test case for a successful login returning a token becasue the AI generated code missed that requirement.

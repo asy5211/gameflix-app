@@ -1,0 +1,14 @@
+.git
+.gitignore
+.idea
+.vscode
+*.iml
+*.log
+.DS_Store
+target
+.env
+.postman
+postman
+# Local secrets must never end up inside the image or the JAR
+application-local.properties
+src/main/resources/application-local.properties
