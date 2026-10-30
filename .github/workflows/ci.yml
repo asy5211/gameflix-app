@@ -76,6 +76,17 @@ jobs:
       - name: Build Docker image
         run: docker build -t gameflix-backend:ci .
 
+      # SBOM: inventory of everything inside the built image (OS packages + every JAR in the app), in CycloneDX JSON.
+      # Runs right after the build and before the scans, so the SBOM is saved as evidence even if a later gate fails.
+      - name: Generate SBOM (CycloneDX) with Syft
+        uses: anchore/sbom-action@v0
+        with:
+          image: gameflix-backend:ci
+          format: cyclonedx-json
+          output-file: gameflix-sbom.cdx.json
+          artifact-name: gameflix-sbom.cdx.json
+          upload-artifact: true
+
       # Security scan 1: report HIGH and CRITICAL vulnerabilities (does not fail the build).
       - name: Trivy scan - report
         uses: aquasecurity/trivy-action@0.35.0
@@ -83,15 +94,15 @@ jobs:
           image-ref: gameflix-backend:ci
           format: table
           severity: HIGH,CRITICAL
-          ignore-unfixed: true
+          ignore-unfixed: false
           exit-code: '0'
 
-      # Security scan 2: fail the pipeline if a CRITICAL vulnerability with an available fix is found.
+      # Security scan 2 (gate): fail the build on ANY CRITICAL finding, including ones with no fix yet.
       - name: Trivy scan - fail on CRITICAL
         uses: aquasecurity/trivy-action@0.35.0
         with:
           image-ref: gameflix-backend:ci
           format: table
           severity: CRITICAL
-          ignore-unfixed: true
+          ignore-unfixed: false
           exit-code: '1'
