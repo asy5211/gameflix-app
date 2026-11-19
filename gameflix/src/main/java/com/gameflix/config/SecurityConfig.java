@@ -54,14 +54,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, JwtService jwtService) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // stateless API, no cookies/session
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**")) // JSON API is stateless (bearer token); HTML pages use CSRF tokens
                 .cors(Customizer.withDefaults())
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
+                .logout(l -> l.logoutSuccessUrl("/"))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/", "/register", "/login", "/profile", "/logout").permitAll() // page routes check the session themselves
                         .requestMatchers("/error").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(e -> e.authenticationEntryPoint(unauthorizedEntryPoint()))

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GameFlix</title>
+</head>
+<body>
+<h1>GameFlix</h1>
+<hr>
+<h2>My profile</h2>
+<table border="1" cellpadding="4">
+    <tr><th>ID</th><td th:text="${user.id()}"></td></tr>
+    <tr><th>Display name</th><td th:text="${user.displayName()}"></td></tr>
+    <tr><th>Email</th><td th:text="${user.email()}"></td></tr>
+    <tr><th>Member since</th><td th:text="${user.createdAt()}"></td></tr>
+</table>
+<form th:action="@{/logout}" method="post"><button type="submit">Log out</button></form>
+<p><a th:href="@{/}">Home</a></p>
+</body>
+</html>

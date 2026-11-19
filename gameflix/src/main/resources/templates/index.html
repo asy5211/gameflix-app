@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GameFlix</title>
+</head>
+<body>
+<h1>GameFlix</h1>
+<hr>
+<p>Welcome to GameFlix.</p>
+<div th:if="${loggedIn}">
+    <p><a th:href="@{/profile}">My profile</a></p>
+    <form th:action="@{/logout}" method="post"><button type="submit">Log out</button></form>
+</div>
+<div th:unless="${loggedIn}">
+    <p><a th:href="@{/register}">Register</a> | <a th:href="@{/login}">Log in</a></p>
+</div>
+</body>
+</html>
