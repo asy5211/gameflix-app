@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GameFlix</title>
+    <link rel="stylesheet" th:href="@{/css/wireframe.css}">
+</head>
+<body>
+
+<header th:fragment="navUser" class="topbar">
+    <div class="wrap bar">
+        <a class="logo" th:href="@{/}">GameFlix</a>
+        <nav>
+            <a th:href="@{/games}">Games</a>
+            <a th:href="@{/subscription}">Subscription</a>
+            <a th:href="@{/profile}">Profile</a>
+        </nav>
+        <form class="inline" th:action="@{/logout}" method="post">
+            <button class="btn" type="submit">Log out</button>
+        </form>
+    </div>
+</header>
+
+<header th:fragment="navGuest" class="topbar">
+    <div class="wrap bar">
+        <a class="logo" th:href="@{/}">GameFlix</a>
+        <nav>
+            <a th:href="@{/register}">Register</a>
+            <a th:href="@{/login}">Log in</a>
+        </nav>
+    </div>
+</header>
+
+<div th:fragment="statusBar(subscribed)">
+    <div class="tierbar">
+        <div th:classappend="${!subscribed} ? 'on'">Not subscribed</div>
+        <div th:classappend="${subscribed} ? 'on'">Subscribed</div>
+    </div>
+</div>
+
+<footer th:fragment="footer">
+    <div class="wrap note">GameFlix - IST 412 course project (wireframe style)</div>
+</footer>
+
+</body>
+</html>

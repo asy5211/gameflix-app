@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head}"></head>
+<body>
+<header th:replace="~{fragments :: navUser}"></header>
+<main class="wrap">
+    <h2 th:text="'Now playing: ' + ${game.title}"></h2>
+    <div class="screen">
+        <div class="hud">
+            <span class="hudbox">Score 0000</span>
+            <span class="hudbox">Level 1</span>
+        </div>
+        <div class="center" th:text="${game.title}"></div>
+        <div class="hud">
+            <span class="hudbox">Health</span>
+            <span class="hudbox">Menu</span>
+        </div>
+    </div>
+    <p class="note">This is a simulated game screen for the course demo.</p>
+    <a class="btn" th:href="@{/games/{id}(id=${game.id})}">Quit game</a>
+</main>
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

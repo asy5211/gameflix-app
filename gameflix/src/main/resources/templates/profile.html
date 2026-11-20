@@ -1,32 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>GameFlix</title>
-</head>
+<head th:replace="~{fragments :: head}"></head>
 <body>
-<h1>GameFlix</h1>
-<p>
-    <a th:href="@{/}">Home</a> |
-    <a th:href="@{/games}">Games</a> |
-    <a th:href="@{/profile}">My profile</a>
-</p>
-<hr>
-<h2>My profile</h2>
-<table border="1" cellpadding="4">
-    <tr><th>ID</th><td th:text="${user.id()}"></td></tr>
-    <tr><th>Display name</th><td th:text="${user.displayName()}"></td></tr>
-    <tr><th>Email</th><td th:text="${user.email()}"></td></tr>
-    <tr><th>Member since</th><td th:text="${user.createdAt()}"></td></tr>
-</table>
-<h3>My favorite games</h3>
-<p th:if="${favorites.isEmpty()}">You have no favorites yet. <a th:href="@{/games}">Browse the catalog</a>.</p>
-<ul th:unless="${favorites.isEmpty()}">
-    <li th:each="g : ${favorites}">
-        <a th:href="@{/games/{id}(id=${g.id})}" th:text="${g.title}"></a>
-        (<span th:text="${g.genre.name}"></span>)
-    </li>
-</ul>
-<form th:action="@{/logout}" method="post"><button type="submit">Log out</button></form>
+<header th:replace="~{fragments :: navUser}"></header>
+<main class="wrap">
+    <h2>My profile</h2>
+    <div class="cols">
+        <div class="box">
+            <div class="ph ph-avatar"><span>Avatar</span></div>
+            <table>
+                <tr><th>ID</th><td th:text="${user.id()}"></td></tr>
+                <tr><th>Name</th><td th:text="${user.displayName()}"></td></tr>
+                <tr><th>Email</th><td th:text="${user.email()}"></td></tr>
+                <tr><th>Member since</th><td th:text="${user.createdAt()}"></td></tr>
+            </table>
+        </div>
+        <div class="box">
+            <h3>My subscription</h3>
+            <div th:replace="~{fragments :: statusBar(${subscribed})}"></div>
+            <p><b th:text="${subscribed} ? 'Subscription active' : 'No active subscription'"></b></p>
+            <a class="btn" th:href="@{/subscription}">Manage subscription</a>
+        </div>
+    </div>
+    <h3>My favorite games</h3>
+    <p class="box" th:if="${favorites.isEmpty()}">You have no favorites yet. <a th:href="@{/games}">Browse the catalog</a>.</p>
+    <div class="grid" th:unless="${favorites.isEmpty()}">
+        <div class="card" th:each="g : ${favorites}">
+            <div class="ph ph-card"><span>Game art</span></div>
+            <h3><a th:href="@{/games/{id}(id=${g.id})}" th:text="${g.title}"></a></h3>
+            <p class="meta">
+                <span class="chip" th:text="${g.genre.name}"></span>
+            </p>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments :: footer}"></footer>
 </body>
 </html>

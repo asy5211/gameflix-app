@@ -2,6 +2,7 @@ package com.gameflix.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record RegisterRequest(
@@ -13,6 +14,10 @@ public record RegisterRequest(
         // bcrypt silently truncates input at 72 bytes, so cap at 64 characters.
         @NotBlank(message = "password is required")
         @Size(min = 8, max = 64, message = "password must be 8 to 64 characters")
+        @Pattern(regexp = ".*[a-z].*", message = "password must contain a lowercase letter")
+        @Pattern(regexp = ".*[A-Z].*", message = "password must contain an uppercase letter")
+        @Pattern(regexp = ".*[0-9].*", message = "password must contain a number")
+        @Pattern(regexp = ".*[^A-Za-z0-9].*", message = "password must contain a symbol")
         String password,
 
         @NotBlank(message = "displayName is required")

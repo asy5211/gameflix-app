@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>GameFlix</title>
-</head>
+<head th:replace="~{fragments :: head}"></head>
 <body>
-<h1>GameFlix</h1>
-<p>
-    <a th:href="@{/}">Home</a> |
-    <a th:href="@{/games}">Games</a> |
-    <a th:href="@{/profile}">My profile</a>
-</p>
-<hr>
-<h2>Game catalog</h2>
-<form th:action="@{/games}" method="get">
-    <input type="text" name="q" th:value="${q}" placeholder="Search by title">
-    <button type="submit">Search</button>
-    <a th:if="${q != null and !q.isEmpty()}" th:href="@{/games}">Clear</a>
-</form>
-<p th:text="${games.size()} + ' game(s) found'"></p>
-<p th:if="${games.isEmpty()}">No games match your search.</p>
-<table border="1" cellpadding="4" th:unless="${games.isEmpty()}">
-    <tr><th>Title</th><th>Genre</th><th>Year</th></tr>
-    <tr th:each="g : ${games}">
-        <td><a th:href="@{/games/{id}(id=${g.id})}" th:text="${g.title}"></a></td>
-        <td th:text="${g.genre.name}"></td>
-        <td th:text="${g.releaseYear}"></td>
-    </tr>
-</table>
+<header th:replace="~{fragments :: navUser}"></header>
+<main class="wrap">
+    <h2>Game catalog</h2>
+    <div class="box">
+        <form class="searchbar" th:action="@{/games}" method="get">
+            <input type="text" name="q" th:value="${q}" placeholder="Search games by title">
+            <button class="btn dark" type="submit">Search</button>
+            <a class="btn" th:if="${q != null and !q.isEmpty()}" th:href="@{/games}">Clear</a>
+        </form>
+    </div>
+    <p th:text="${games.size()} + ' game(s) found'"></p>
+    <p class="box" th:if="${games.isEmpty()}">No games match your search.</p>
+    <div class="grid" th:unless="${games.isEmpty()}">
+        <div class="card" th:each="g : ${games}">
+            <div class="ph ph-card"><span>Game art</span></div>
+            <h3><a th:href="@{/games/{id}(id=${g.id})}" th:text="${g.title}"></a></h3>
+            <p class="meta">
+                <span class="chip" th:text="${g.genre.name}"></span>
+                <span class="chip" th:text="${g.releaseYear}"></span>
+            </p>
+            <a class="btn" th:href="@{/games/{id}(id=${g.id})}">View</a>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments :: footer}"></footer>
 </body>
 </html>

@@ -1,22 +1,30 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>GameFlix</title>
-</head>
+<head th:replace="~{fragments :: head}"></head>
 <body>
-<h1>GameFlix</h1>
-<hr>
-<h2>Register</h2>
-<ul th:if="${errors != null and !errors.isEmpty()}" style="color:red">
-    <li th:each="e : ${errors}" th:text="${e}"></li>
-</ul>
-<form th:action="@{/register}" method="post">
-    <p><label>Email <input type="email" name="email" th:value="${email}"></label></p>
-    <p><label>Display name <input type="text" name="displayName" th:value="${displayName}"></label></p>
-    <p><label>Password (8-64 characters) <input type="password" name="password"></label></p>
-    <button type="submit">Register</button>
-</form>
-<p><a th:href="@{/login}">Already have an account? Log in</a> | <a th:href="@{/}">Home</a></p>
+<header th:replace="~{fragments :: navGuest}"></header>
+<main class="wrap">
+    <div class="box narrow">
+        <h2>Create an account</h2>
+        <ul class="error" th:if="${errors != null and !errors.isEmpty()}">
+            <li th:each="e : ${errors}" th:text="${e}"></li>
+        </ul>
+        <form th:action="@{/register}" method="post">
+            <label>Email
+                <input type="email" name="email" th:value="${email}">
+            </label>
+            <label>Display name
+                <input type="text" name="displayName" th:value="${displayName}">
+            </label>
+            <label>Password
+                <input type="password" name="password">
+            </label>
+            <p class="note">8 to 64 characters, with a lowercase letter, an uppercase letter, a number and a symbol.</p>
+            <button class="btn dark" type="submit">Register</button>
+        </form>
+        <p style="margin-top:16px"><a th:href="@{/login}">Already have an account? Log in</a></p>
+    </div>
+</main>
+<footer th:replace="~{fragments :: footer}"></footer>
 </body>
 </html>

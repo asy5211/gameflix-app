@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head}"></head>
+<body>
+<header th:replace="~{fragments :: navUser}"></header>
+<main class="wrap">
+    <h2>Subscription</h2>
+    <div class="box">
+        <div th:replace="~{fragments :: statusBar(${subscribed})}"></div>
+        <p><b th:text="${subscribed} ? 'Subscription active' : 'No active subscription'"></b></p>
+        <p th:if="${subscribed}">You can play every game in the catalog.</p>
+        <p th:unless="${subscribed}">Subscribe to unlock playing every game in the catalog.</p>
+        <form th:action="@{/subscription/toggle}" method="post">
+            <button class="btn dark" type="submit" th:text="${subscribed} ? 'Cancel subscription' : 'Subscribe'"></button>
+        </form>
+        <p class="note" style="margin-top:12px">Demo only: no payment is taken. The button just turns access on or off.</p>
+    </div>
+</main>
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

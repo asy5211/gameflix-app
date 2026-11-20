@@ -1,19 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>GameFlix</title>
-</head>
+<head th:replace="~{fragments :: head}"></head>
 <body>
-<h1>GameFlix</h1>
-<hr>
-<p>Welcome to GameFlix.</p>
-<div th:if="${loggedIn}">
-    <p><a th:href="@{/games}">Browse games</a> | <a th:href="@{/profile}">My profile</a></p>
-    <form th:action="@{/logout}" method="post"><button type="submit">Log out</button></form>
-</div>
-<div th:unless="${loggedIn}">
-    <p><a th:href="@{/register}">Register</a> | <a th:href="@{/login}">Log in</a></p>
-</div>
+<header th:replace="${loggedIn} ? ~{fragments :: navUser} : ~{fragments :: navGuest}"></header>
+<main class="wrap">
+    <div class="box">
+        <div class="ph ph-hero"><span>Hero image</span></div>
+        <h1 style="margin-top:16px">Play more. Pay for one plan.</h1>
+        <p>GameFlix gives you a library of games for one subscription.</p>
+        <div th:if="${loggedIn}">
+            <a class="btn dark" th:href="@{/games}">Browse games</a>
+            <a class="btn" th:href="@{/profile}">My profile</a>
+        </div>
+        <div th:unless="${loggedIn}">
+            <a class="btn dark" th:href="@{/register}">Create an account</a>
+            <a class="btn" th:href="@{/login}">Log in</a>
+        </div>
+    </div>
+    <div class="cols">
+        <div class="box dashed"><h3>1. Browse</h3><p>Search the catalog by title and open a game's detail page.</p></div>
+        <div class="box dashed"><h3>2. Subscribe</h3><p>Pick Basic or Premium to unlock games to play.</p></div>
+        <div class="box dashed"><h3>3. Save favorites</h3><p>Favorite games show up on your profile.</p></div>
+    </div>
+</main>
+<footer th:replace="~{fragments :: footer}"></footer>
 </body>
 </html>

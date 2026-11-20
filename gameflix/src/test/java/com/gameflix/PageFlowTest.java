@@ -67,6 +67,15 @@ class PageFlowTest {
     }
 
     @Test
+    void registerRejectsAPasswordWithoutASymbol() throws Exception {
+        mvc.perform(post("/register").with(csrf())
+                        .param("email", "weak-" + UUID.randomUUID() + "@example.com")
+                        .param("password", "Throwaway1Pass").param("displayName", "Weak Pass"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("password must contain a symbol")));
+    }
+
+    @Test
     void loginWithWrongPasswordShowsGenericError() throws Exception {
         mvc.perform(post("/login").with(csrf())
                         .param("email", "nobody-" + UUID.randomUUID() + "@example.com").param("password", PASSWORD))
