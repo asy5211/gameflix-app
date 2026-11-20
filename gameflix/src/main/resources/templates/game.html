@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GameFlix</title>
+</head>
+<body>
+<h1>GameFlix</h1>
+<p>
+    <a th:href="@{/}">Home</a> |
+    <a th:href="@{/games}">Games</a> |
+    <a th:href="@{/profile}">My profile</a>
+</p>
+<hr>
+<h2 th:text="${game.title}"></h2>
+<p><b>Genre:</b> <span th:text="${game.genre.name}"></span></p>
+<p><b>Released:</b> <span th:text="${game.releaseYear}"></span></p>
+<p th:text="${game.description}"></p>
+<form th:if="${!favorite}" th:action="@{/games/{id}/favorite(id=${game.id})}" method="post">
+    <button type="submit">Add to favorites</button>
+</form>
+<form th:if="${favorite}" th:action="@{/games/{id}/unfavorite(id=${game.id})}" method="post">
+    <p>This game is in your favorites.</p>
+    <button type="submit">Remove from favorites</button>
+</form>
+<p><a th:href="@{/games}">Back to catalog</a></p>
+</body>
+</html>

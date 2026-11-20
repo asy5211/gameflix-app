@@ -63,7 +63,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/", "/register", "/login", "/profile", "/logout").permitAll() // page routes check the session themselves
+                        .requestMatchers("/", "/register", "/login", "/profile", "/logout", "/games", "/games/**").permitAll() // page routes check the session themselves
                         .requestMatchers("/error").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(e -> e.authenticationEntryPoint(unauthorizedEntryPoint()))

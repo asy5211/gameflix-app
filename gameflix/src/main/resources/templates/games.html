@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GameFlix</title>
+</head>
+<body>
+<h1>GameFlix</h1>
+<p>
+    <a th:href="@{/}">Home</a> |
+    <a th:href="@{/games}">Games</a> |
+    <a th:href="@{/profile}">My profile</a>
+</p>
+<hr>
+<h2>Game catalog</h2>
+<form th:action="@{/games}" method="get">
+    <input type="text" name="q" th:value="${q}" placeholder="Search by title">
+    <button type="submit">Search</button>
+    <a th:if="${q != null and !q.isEmpty()}" th:href="@{/games}">Clear</a>
+</form>
+<p th:text="${games.size()} + ' game(s) found'"></p>
+<p th:if="${games.isEmpty()}">No games match your search.</p>
+<table border="1" cellpadding="4" th:unless="${games.isEmpty()}">
+    <tr><th>Title</th><th>Genre</th><th>Year</th></tr>
+    <tr th:each="g : ${games}">
+        <td><a th:href="@{/games/{id}(id=${g.id})}" th:text="${g.title}"></a></td>
+        <td th:text="${g.genre.name}"></td>
+        <td th:text="${g.releaseYear}"></td>
+    </tr>
+</table>
+</body>
+</html>

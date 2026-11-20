@@ -8,6 +8,7 @@ import com.gameflix.exception.EmailAlreadyRegisteredException;
 import com.gameflix.exception.InvalidCredentialsException;
 import com.gameflix.security.JwtService;
 import com.gameflix.service.AuthService;
+import com.gameflix.service.GameService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.ConstraintViolation;
@@ -33,11 +34,14 @@ public class PageController {
     private final AuthService authService;
     private final JwtService jwtService;
     private final Validator validator;
+    private final GameService gameService;
 
-    public PageController(AuthService authService, JwtService jwtService, Validator validator) {
+    public PageController(AuthService authService, JwtService jwtService, Validator validator,
+                          GameService gameService) {
         this.authService = authService;
         this.jwtService = jwtService;
         this.validator = validator;
+        this.gameService = gameService;
     }
 
     @GetMapping("/")
@@ -115,6 +119,7 @@ public class PageController {
             return "redirect:/login";
         }
         model.addAttribute("user", user.get());
+        model.addAttribute("favorites", gameService.favoritesOf(user.get().id()));
         return "profile";
     }
 

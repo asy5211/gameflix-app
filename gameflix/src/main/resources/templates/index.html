@@ -9,7 +9,7 @@
 <hr>
 <p>Welcome to GameFlix.</p>
 <div th:if="${loggedIn}">
-    <p><a th:href="@{/profile}">My profile</a></p>
+    <p><a th:href="@{/games}">Browse games</a> | <a th:href="@{/profile}">My profile</a></p>
     <form th:action="@{/logout}" method="post"><button type="submit">Log out</button></form>
 </div>
 <div th:unless="${loggedIn}">

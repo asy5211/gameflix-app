@@ -6,6 +6,11 @@
 </head>
 <body>
 <h1>GameFlix</h1>
+<p>
+    <a th:href="@{/}">Home</a> |
+    <a th:href="@{/games}">Games</a> |
+    <a th:href="@{/profile}">My profile</a>
+</p>
 <hr>
 <h2>My profile</h2>
 <table border="1" cellpadding="4">
@@ -14,7 +19,14 @@
     <tr><th>Email</th><td th:text="${user.email()}"></td></tr>
     <tr><th>Member since</th><td th:text="${user.createdAt()}"></td></tr>
 </table>
+<h3>My favorite games</h3>
+<p th:if="${favorites.isEmpty()}">You have no favorites yet. <a th:href="@{/games}">Browse the catalog</a>.</p>
+<ul th:unless="${favorites.isEmpty()}">
+    <li th:each="g : ${favorites}">
+        <a th:href="@{/games/{id}(id=${g.id})}" th:text="${g.title}"></a>
+        (<span th:text="${g.genre.name}"></span>)
+    </li>
+</ul>
 <form th:action="@{/logout}" method="post"><button type="submit">Log out</button></form>
-<p><a th:href="@{/}">Home</a></p>
 </body>
 </html>
